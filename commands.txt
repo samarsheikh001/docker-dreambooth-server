@@ -1,0 +1,3 @@
+pip install firebase-admin
+pip install python-dotenv
+pip install boto3
