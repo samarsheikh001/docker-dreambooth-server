@@ -2,11 +2,8 @@ FROM pytorch/pytorch:latest
 
 WORKDIR /
 
-# Set environment variables
-ENV HUGGINGFACE_TOKEN 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
-
 RUN mkdir -p ~/.huggingface
-# Write the Hugging Face token to the file
+# Use the environment variable to write the token to the file
 RUN echo -n $HUGGINGFACE_TOKEN > ~/.huggingface/token
 
 # Update system and install necessary system packages for git and wget
@@ -22,9 +19,9 @@ RUN pip install --upgrade pip && \
 # Download necessary python files using ADD instead of wget.
 ADD https://github.com/ShivamShrirao/diffusers/raw/main/examples/dreambooth/train_dreambooth.py train_dreambooth.py
 ADD https://raw.githubusercontent.com/CompVis/stable-diffusion/main/configs/stable-diffusion/v1-inference.yaml v1-inference.yaml
-ADD https://sgp1.vultrobjects.com/dreambooth-files/main.py main.py
-ADD https://raw.githubusercontent.com/samarsheikh001/dreambooth-server/main/to_ckpt.py to_ckpt.py
-ADD "https://firebasestorage.googleapis.com/v0/b/copykitties-avatar.appspot.com/o/upload.py?alt=media&token=465f5809-c013-43c7-a089-718f75087b2b&_gl=1*vjv9hp*_ga*NjIyODc5MTgxLjE2ODY0MjM0OTY.*_ga_CW55HF8NVT*MTY4NjYwMjA0OC4xMi4xLjE2ODY2MDMxNzguMC4wLjA." upload.py
+ADD https://raw.githubusercontent.com/samarsheikh001/docker-dreambooth-server/main/server.py server.py
+ADD https://raw.githubusercontent.com/samarsheikh001/docker-dreambooth-server/main/to_ckpt.py to_ckpt.py
+ADD https://raw.githubusercontent.com/samarsheikh001/docker-dreambooth-server/main/upload.py upload.py
 
 # Set the command to run when the container starts
-CMD ["python", "main.py"]
+CMD ["python", "server.py"]

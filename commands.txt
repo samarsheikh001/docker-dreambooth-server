@@ -1,3 +1,1 @@
-pip install firebase-admin
-pip install python-dotenv
-pip install boto3
+docker run --env-file .env dreambooth-server
