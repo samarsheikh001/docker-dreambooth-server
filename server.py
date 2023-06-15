@@ -155,7 +155,7 @@ while True:
 
         run_script(queued_request, "runwayml/stable-diffusion-v1-5", "output")
     else:
-        find_and_terminate_pod(os.getenv("RUNPOD_API_KEY"))
+        find_and_terminate_pod(os.getenv("POD_NAME"))
         # No more requests in 'QUEUE' status, exit the loop
         break
 

@@ -22,6 +22,7 @@ ADD https://raw.githubusercontent.com/CompVis/stable-diffusion/main/configs/stab
 ADD https://raw.githubusercontent.com/samarsheikh001/docker-dreambooth-server/main/server.py server.py
 ADD https://raw.githubusercontent.com/samarsheikh001/docker-dreambooth-server/main/to_ckpt.py to_ckpt.py
 ADD https://raw.githubusercontent.com/samarsheikh001/docker-dreambooth-server/main/upload.py upload.py
+ADD https://raw.githubusercontent.com/samarsheikh001/docker-dreambooth-server/main/runpod.py runpod.py
 
 # Set the command to run when the container starts
 CMD ["python", "server.py"]
