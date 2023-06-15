@@ -142,41 +142,6 @@ def run_script(request, model_name, output_dir):
         # Rethrow the exception if you want to handle it further up in the call stack
         raise
 
-def terminate_pod(pod_id):
-    API_KEY = os.getenv('RUNPOD_API')
-
-    # GraphQL API endpoint URL
-    url = f"https://api.runpod.io/graphql?api_key={API_KEY}"
-
-    # GraphQL request headers
-    headers = {
-        "Content-Type": "application/json",
-    }
-    query = '''
-        mutation PodTerminate($input: PodTerminateInput!) {
-          podTerminate(input: $input)
-        }
-    '''
-    payload = {
-        "query": query,
-        "variables": {
-            "input": {
-                "podId": pod_id
-            }
-        }
-    }
-
-    response = requests.post(url, headers=headers, json=payload)
-
-    if response.status_code == 200:
-        data = response.json()
-        print(data)
-        return data
-    else:
-        print("GraphQL request failed with status code:", response.status_code)
-        print(response.text)
-        return None
-
 while True:
     # Check queued requests
     queued_request = check_queued_requests()
@@ -186,7 +151,6 @@ while True:
 
         run_script(queued_request, "runwayml/stable-diffusion-v1-5", "output")
     else:
-        terminate_pod(os.getenv('POD_ID'))
         # No more requests in 'QUEUE' status, exit the loop
         break
 
