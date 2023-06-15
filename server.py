@@ -2,6 +2,8 @@
 import datetime
 from dotenv import load_dotenv
 
+from runpod import find_and_terminate_pod
+
 # load all environment variables
 load_dotenv()
 
@@ -142,6 +144,8 @@ def run_script(request, model_name, output_dir):
         # Rethrow the exception if you want to handle it further up in the call stack
         raise
 
+
+
 while True:
     # Check queued requests
     queued_request = check_queued_requests()
@@ -151,6 +155,7 @@ while True:
 
         run_script(queued_request, "runwayml/stable-diffusion-v1-5", "output")
     else:
+        find_and_terminate_pod(os.getenv("RUNPOD_API_KEY"))
         # No more requests in 'QUEUE' status, exit the loop
         break
 
