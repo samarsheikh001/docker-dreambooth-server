@@ -92,7 +92,8 @@ def run_script(request, model_name, output_dir):
         now = datetime.datetime.now()
         request.reference.update({'status': 'IN_PROGRESS',
                                   'time_started': now,
-                                  'server_name': pod_name})
+                                  'server_name': pod_name,
+                                  'try': 1})
         data = request.to_dict()
         subjectIdentifier = generate_identifier()
         subjectType = data.get("subjectType")
