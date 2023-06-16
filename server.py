@@ -1,4 +1,19 @@
 
+from upload import upload_file_to_s3
+from to_ckpt import convert_model
+import uuid
+from google.cloud.firestore_v1.base_query import FieldFilter
+from firebase_admin import firestore
+from firebase_admin import credentials
+import firebase_admin
+import io
+import zipfile
+import requests
+import subprocess
+import shutil
+import platform
+import os
+from asyncio import sleep
 import datetime
 from dotenv import load_dotenv
 
@@ -7,23 +22,7 @@ from runpod import find_and_terminate_pod
 # load all environment variables
 load_dotenv()
 
-from asyncio import sleep
-import os
-import platform
-import shutil
-import subprocess
-import requests
-import zipfile
-import io
-
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-from google.cloud.firestore_v1.base_query import FieldFilter
-import uuid
-
-from to_ckpt import convert_model
-from upload import upload_file_to_s3
+pod_name = os.getenv("POD_NAME")
 
 
 # now you can use them as regular environment variables
@@ -92,7 +91,8 @@ def run_script(request, model_name, output_dir):
         # Get current timestamp
         now = datetime.datetime.now()
         request.reference.update({'status': 'IN_PROGRESS',
-                                  'time_started': now})
+                                  'time_started': now,
+                                  'server_name': pod_name})
         data = request.to_dict()
         subjectIdentifier = generate_identifier()
         subjectType = data.get("subjectType")
@@ -145,7 +145,6 @@ def run_script(request, model_name, output_dir):
         raise
 
 
-
 while True:
     # Check queued requests
     queued_request = check_queued_requests()
@@ -155,7 +154,7 @@ while True:
 
         run_script(queued_request, "runwayml/stable-diffusion-v1-5", "output")
     else:
-        find_and_terminate_pod(os.getenv("POD_NAME"))
+        find_and_terminate_pod(pod_name)
         # No more requests in 'QUEUE' status, exit the loop
         break
 
