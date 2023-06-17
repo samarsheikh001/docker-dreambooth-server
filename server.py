@@ -89,10 +89,10 @@ def check_queued_requests():
 def run_script(request, model_name, output_dir):
     try:
         # Get current timestamp
-        now = datetime.datetime.now()
+        now = datetime.datetime.now(datetime.timezone.utc)
         request.reference.update({'status': 'IN_PROGRESS',
-                                  'time_started': now,
-                                  'server_name': pod_name,
+                                  'timeStarted': now,
+                                  'serverName': pod_name,
                                   'try': 1})
         data = request.to_dict()
         subjectIdentifier = generate_identifier()
