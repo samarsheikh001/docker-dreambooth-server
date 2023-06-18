@@ -117,7 +117,7 @@ def run_script(request, model_name, output_dir):
             "--output_dir", output_dir,
             "--instance_prompt", f"{instance_prompt} {subjectIdentifier}",
             "--resolution", "512",
-            "--train_batch_size", "1",
+            "--train_batch_size", "2",
             "--gradient_accumulation_steps", "1",
             "--learning_rate", "2e-6",
             "--lr_scheduler", "constant",
