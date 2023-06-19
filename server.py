@@ -62,7 +62,7 @@ def delete_file_or_folder(path):
 
 
 def generate_identifier():
-    identifier = str(uuid.uuid4())
+    identifier = str(uuid.uuid4()).replace("-", "")
     return identifier
 
 
